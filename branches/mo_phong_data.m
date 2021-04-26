@@ -55,7 +55,7 @@ N=1*(randn(M,Nb)+j*randn(M,Nb));
 %Tao ma tran du lieu thu duoc boi mang anten U[M,Nb]
 A=A_tmp.';
 %U=A*S+N;
-U=A*S;
+U=A*S+N;
 
 %AP DUNG THUAT TOAN MUSIC DE TIM DOA
 
