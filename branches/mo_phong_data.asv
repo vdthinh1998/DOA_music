@@ -22,7 +22,7 @@ gain=0;
 D=2;
 
 %GOC TOI CUA CAC NGUON TIN HIEU
-angles=[90 60]*(pi/180);   
+angles=[90 ]*(pi/180);   
 
 %SNR cua cac nguon tin hieu (dB)-ung voi moi kenh I va Q
 SNRdB=15;
@@ -33,7 +33,7 @@ SNRdBs=SNRdB*[1 1];
 k=2*pi/lamda;         
 
 %So mau tin hieu thu
-Nb=960; 
+Nb=96; 
 
 
 %Tao ma tran vecto dau vao tin hieu ban dau S[D,Nb] va ma tran vecto lai A_tmp(D,M)
@@ -41,8 +41,8 @@ for i=1:D
     %S(i,:)=(20^(SNRdBs(i)/10))*1*(randn(1,Nb)+j*randn(1,Nb));
     %S(i,:)=(20^(SNRdBs(i)/10))*1*(randn(1,Nb));
     
-    t = 0:1/fs:0.005-1/fs; % phat sin trong 0.0005s
-    S(i,:) = 10*sin(2*pi*f_sonar*t);
+    t = 0:1/fs:0.0005-1/fs; % phat sin trong 0.0005s
+    S(i,:) = sin(2*pi*f_sonar*t);
     A_tmp(i,:)=10^(gain/10)*exp(j*k*(0:M-1)*d*(cos(angles(i)))); 
 end
 subplot(2,1,1);
@@ -60,7 +60,7 @@ U=A*S;
 %AP DUNG THUAT TOAN MUSIC DE TIM DOA
 
 %Tinh covarian cua tin hieu vao
-Ruu=U*U'/Nb;
+Ruu=U*U'/length(S);
 
 %Xac dinh gia tri rieng va vector rieng cua covarian cua tin hieu loi vao
 [eigVector,eigValue]=eig(Ruu);
