@@ -1,0 +1,83 @@
+tic
+clear all 
+close all 
+clc 
+Ne=6;                 %So phan tu cua mang anten 
+Nb=1000;               %So mau tin hieu thu duoc
+lamda=0.01;            %Buoc song cua tin hieu (m)
+d=0.005;               %Khoang cach giua cac phan tu anten trong mang ULA (m)
+D=2;                   %So nguon tin hieu 
+angles=[25 60]*(pi/180); %Mang cac goc toi cua cac nguon tin hieu tuong ung
+
+SNRdB=20;
+SNRdBs=SNRdB*[1 1];
+
+SNRs=[25 21 20 25];             %Mang cac gia tri ty so tin hieu/tap am cua cac nguon tin hieu tuong ung (dB)
+
+%Tao ma tran vecto dau vao tin hieu ban dau S[D,Nb] va ma tran vecto lai A(D,Ne)
+
+for k=1:D 
+    S(k,:)=(20^(SNRdBs(k)/10))*exp(j*2*pi*rand(1,Nb)); 
+    A(k,:)=exp(j*2*pi/lamda*((0:Ne-1)*d*cos(angles(k)))); %ULA normal
+end
+disp(S);
+disp(A);
+
+%Tao ma tran nhieu N[Nb,Ne]
+N=rand(Nb,Ne)+j*rand(Nb,Ne);
+disp(N);
+
+%Tao ma tran du lieu thu duoc boi mang anten U[Nb,Ne]
+U=S.'*A + N;
+
+%AP DUNG THUAT TOAN MUSIC DE TIM DOA
+
+%Tinh covarian cua tin hieu vao
+Ruu=U'*U/Nb;
+disp(Ruu);
+%Tim ma tran cac vecto rieng cua U*UH
+
+%Xac dinh gia tri rieng va vector rieng cua covarian cua tin hieu loi vao
+[eigVector,eigValue]=eig(Ruu);
+disp(eigValue);
+eigValueMax=max(max(eigValue));
+disp(eigValueMax);
+
+%Xac dinh so nguon tin hieu den
+signals=length(find(diag(eigValue)>eigValueMax/1000));
+disp(signals);
+
+%Xac dinh cac vector rieng cua khong gian nhieu
+disp(eigVector);
+eigVectorNoise=eigVector(:,1:Ne-signals);
+
+%Xac dinh cac vector rieng cua khong gian tin hieu
+eigVectorSignal=eigVector(:,Ne-signals+1:Ne);
+disp (eigVectorSignal);
+
+%Xac dinh Q0 va Q1
+Q0=eigVectorSignal(1:Ne-1,:);
+Q1=eigVectorSignal(2:Ne,:);
+disp(Q0);
+disp(Q1);
+
+%Xac dinh V
+[U,D,V]=svd([Q0 Q1]);
+disp (V);
+
+%Xac dinh V12 va V22
+V12=V(1:signals,signals+1:2*signals);
+V22=V(signals+1:2*signals,signals+1:2*signals);
+disp(V12);
+disp(V22);
+
+% Tinh DOA
+[eigVectorSi,eigValueSi]=eig(-V12*inv(V22));
+disp(eigValueSi);
+for i=1:signals
+    eigValueSI(i)=eigValueSi(i,i);
+end    
+phi=(pi-acos((angle(eigValueSI))/(2*pi*0.5)))*180/pi;
+disp(phi);
+
+toc
