@@ -18,8 +18,8 @@ d = lamda/2;
 %=============================================================
 % Filter
 %=============================================================
-[U,fs] = audioread('D:/THUAT_TOAN_MUSIC/file_wav/28-11/test_12k_2811_3.wav');
-%[U,fs] = audioread('data_2kenh_radar_12k.wav');
+%[U,fs] = audioread('D:/THUAT_TOAN_MUSIC/file_wav/28-11/test_12k_2811_3.wav');
+[U,fs] = audioread('data_2kenh_radar_12k.wav');
 [b,a]=butter(5,[11000,13000]/(fs/2),'bandpass');
 filtsig=filter(b,a,U);  %filtered signal
 maxkenh1 = max(filtsig(:,1));
