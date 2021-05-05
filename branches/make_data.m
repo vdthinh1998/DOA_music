@@ -19,7 +19,7 @@ data2 = [ zeros(10000,1); U2(30000:30095); nhieu_2_part1;reflex2;nhieu_2_part2; 
 data = [data1 data2];
 subplot(2,1,1);
 plot(data);
-
+audiowrite('data_2kenh_radar_12k.wav',data,192000);
 %Loc 12k
 [b,a]=butter(5,[11000,13000]/(fs/2),'bandpass');
 filtsig=filter(b,a,data);  %filtered signal
