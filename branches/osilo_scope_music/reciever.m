@@ -101,7 +101,7 @@ set(handles.disp_txt,'String','Show text');
 receiver_parametter;
  
  set(handles.mod_method,'String',  R_method);
-set(handles.edit_FS,'String',num2str(192000));
+set(handles.edit_FS,'String',num2str(96000));
 set(handles.edit_F0,'String',num2str(12400));
 set(handles.edit_df,'String',num2str(400));
 set(handles.edit_bitrates,'String',num2str(100));
@@ -552,7 +552,7 @@ dt=[ num2str(cc(3))  num2str(cc(4)) num2str(cc(5)) num2str(round(cc(6)))];
  
 name=strcat(File_name,dt,'.wav'); 
 size(y)
-audiowrite(y,flm,16,name);
+audiowrite(name,y,flm);
   
 % --- Executes on button press in load_data.
 function load_data_Callback(hObject, eventdata, handles)
