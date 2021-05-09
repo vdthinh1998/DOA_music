@@ -1,7 +1,7 @@
 %Author: Huy Vuong 
 %School: HaNoi University Of Science and Technology
-%Project: MUSIC + Khoang cach
-% aaaaaa
+%Project: MUSIC + Khoang cach voi 2 hydrophone thu + 1 nguon phat
+% 
 %=============================================================
 % Hang so 
 %=============================================================
@@ -137,13 +137,8 @@ while i<=(length(y1))% /100
                 i = i+1; %default = 200
                 time = index2-index1;
                 distance=time*1500/2;
-%                 disp('Time');
-%                 disp(time*1/fs);
-                %disp('Distance(m)');
                 distance=distance*1/fs;
-                %disp(distance);
                 D1(i)= distance;
-                %stt = 0;
             else
                 i = i+1;
                 stt = 1;
