@@ -109,8 +109,9 @@ hold on;
 y1 = abs(y1);
   y1=envelope(y1,150,'rms'); %lay mau 150 mau/lan
   y1=y1/(max(y1));
+  y1 = y1(1:80000);
   subplot(4,1,4);
-  plot(y1(1:100000));
+  plot(y1);
   xlabel('Time(s)');
   ylabel('Amplitude(V)');
   title('ENVELOPE SIGNAL');
@@ -118,10 +119,11 @@ y1 = abs(y1);
  i = 1;
  stt = 0;
  D1=[];
+ max1 = max(y1);
 while i<=(length(y1))% /100
     switch stt
         case 0
-            if(y1(i)>= 0.5) %=== default = 0.3
+            if(y1(i)== max1) %=== default = 0.3
                 index1 = i;
                 i = i+1; %default = 800 de disp it hon
                 stt = 1;
@@ -141,7 +143,7 @@ while i<=(length(y1))% /100
                 distance=distance*1/fs;
                 %disp(distance);
                 D1(i)= distance;
-                stt = 0;
+                %stt = 0;
             else
                 i = i+1;
                 stt = 1;
