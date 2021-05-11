@@ -45,51 +45,51 @@ plot(y);
 
 
 
-%=====================
-%test tinh khoang cach
-%=====================
-y1 = abs(y1);
-  y1=envelope(y1,150,'rms'); %lay mau 150 mau/lan
-  y1=y1/(max(y1));
-  subplot(3,1,3);
-  plot(y1(1:100000));
-  xlabel('Time(s)');
-  ylabel('Amplitude(V)');
-  title('ENVELOPE SIGNAL');
-
- i = 1;
- stt = 0;
- D1=[];
-while i<=(length(y1)/100)
-    switch stt
-        case 0
-            if(y1(i)>= 0.03) %=== default = 0.3
-                index1 = i;
-                i = i+800;
-                stt = 1;
-            else
-                i = i+1;
-                stt = 0;
-            end
-        case 1
-            if(y1(i)>= 0.002)%== dafault = 0.02
-                index2 = i;
-                i = i+200;
-                time = index2-index1;
-                distance=time*1500/2;
-%                 disp('Time');
-%                 disp(time*1/fs);
-                disp('Distance(m)');
-                distance=distance*1/fs;
-                disp(distance);
-                stt = 0;
-            else
-                i = i+1;
-                stt = 1;
-            end
-        otherwise
-            i = i+1;
-            stt = 0;
-    end
-   %D1=[D1 distance];
-end
+% %=====================
+% %test tinh khoang cach
+% %=====================
+% y1 = abs(y1);
+%   y1=envelope(y1,150,'rms'); %lay mau 150 mau/lan
+%   y1=y1/(max(y1));
+%   subplot(3,1,3);
+%   plot(y1(1:100000));
+%   xlabel('Time(s)');
+%   ylabel('Amplitude(V)');
+%   title('ENVELOPE SIGNAL');
+% 
+%  i = 1;
+%  stt = 0;
+%  D1=[];
+% while i<=(length(y1)/100)
+%     switch stt
+%         case 0
+%             if(y1(i)>= 0.03) %=== default = 0.3
+%                 index1 = i;
+%                 i = i+800;
+%                 stt = 1;
+%             else
+%                 i = i+1;
+%                 stt = 0;
+%             end
+%         case 1
+%             if(y1(i)>= 0.002)%== dafault = 0.02
+%                 index2 = i;
+%                 i = i+200;
+%                 time = index2-index1;
+%                 distance=time*1500/2;
+% %                 disp('Time');
+% %                 disp(time*1/fs);
+%                 disp('Distance(m)');
+%                 distance=distance*1/fs;
+%                 disp(distance);
+%                 stt = 0;
+%             else
+%                 i = i+1;
+%                 stt = 1;
+%             end
+%         otherwise
+%             i = i+1;
+%             stt = 0;
+%     end
+%    %D1=[D1 distance];
+% end
