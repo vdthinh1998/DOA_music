@@ -56,7 +56,56 @@ plot(y_12k_3);
 title('tin hieu 12k kenh 3');
 data_3kenh_12k = [y_12k_1 y_12k_2 y_12k_3];
 figure(4)
+subplot(2,1,1);
 plot(data_3kenh_12k);
+
+%==================
+%Tim goc toi
+%==================
+M=3;
+f = 12000;
+v = 1500;
+lamda=v/f;
+gain = 0;
+k=2*pi/lamda;
+d=lamda/2;
+
+yy = hilbert(data_3kenh_12k);
+Nb = length(data_3kenh_12k); %so mau
+UU = yy';
+dt = 1/fs;
+t = 0:dt:(length(data_3kenh_12k)*dt)-dt;
+Ruu=UU*UU'/Nb;
+[eigVector,eigValue]=eig(Ruu);
+eigValueMax=max(max(eigValue));
+signals = 2;
+eigVectorNoise=eigVector(:,1:M-signals);
+i=1; 
+for theta=1:.1:180
+    i=i+1; 
+    A0_tmp=10^(gain/10)*exp(j*k*(0:M-1)*d*(cos(theta*pi/180))); 
+    A0=A0_tmp.';
+    P(i)=10*log((A0'*A0)/(A0'*eigVectorNoise*eigVectorNoise'*A0))/10;
+    %P(i)=((A0'*A0)/(A0'*eigVectorNoise*eigVectorNoise'*A0))
+    %[maxP,index] = max(real(P));
+end
+
+for index=1:length(P)
+    if (index == 1) && (P(1) > P(2))
+        disp(index/10);
+    elseif (index == length(P)) && (P(length(P)) > P(length(P)-1))
+        disp(index/10);
+    elseif (index~= length(P))&& (index ~= 1) && (P(index) > P(index-1)) && (P(index) > P(index+1))
+        disp(index/10);
+    end
+end 
+
+subplot(2,1,2);
+theta=1:.1:180;
+plot(theta,real(P(1,1:1791)),'k','linewidth',2); 
+xlabel('DOA(do)');
+ylabel('Pho khong gian MUSIC(dB)'); 
+hold on;
 %================== 
 %Plot Enveloped Signal
 %==================
