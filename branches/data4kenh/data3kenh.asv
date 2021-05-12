@@ -149,7 +149,6 @@ y_12k_3 = abs(y_12k_3);
  i = 1;
  stt = 0;
  D1=[];
- khoangcach1=0;
 while i<=(frame)
     switch stt
         case 0
@@ -166,10 +165,10 @@ while i<=(frame)
                 index2 = i;
                 i = i+400;
                 time = index2-index1;
-                khoangcach1=time*1500/2;
+                distance=time*1500/2;
                 disp('Distance 1(m)');
-                khoangcach1=khoangcach1*1/fs;
-                disp(khoangcach1);
+                distance=distance*1/fs;
+                disp(distance);
                 stt = 0;
             else
                 i = i+1;
@@ -179,7 +178,7 @@ while i<=(frame)
             i = i+1;
             stt = 0;
     end
-   D1=[D1 khoangcach1];
+   D1=[D1 distance];
 end
 
 %================== 
@@ -188,7 +187,6 @@ end
  ii = 1;
  stt2 = 0;
  D2=[];
- khoangcach2=0;
 while ii<=(frame)
     switch stt2
         case 0
@@ -205,10 +203,10 @@ while ii<=(frame)
                 index2 = ii;
                 ii = ii+400;
                 time = index2-index1;
-                khoangcach2=time*1500/2;
+                distance=time*1500/2;
                 disp('Distance 2(m)');
-                khoangcach2=khoangcach2*1/fs;
-                disp(khoangcach2);
+                distance=distance*1/fs;
+                disp(distance);
                 stt2 = 0;
             else
                 ii = ii+1;
@@ -218,7 +216,7 @@ while ii<=(frame)
             ii = ii+1;
             stt2 = 0;
     end
-   D2=[D2 khoangcach2];
+   D2=[D2 distance];
 end
 
 %================== 
@@ -227,7 +225,6 @@ end
  iii = 1;
  stt3 = 0;
  D3=[];
- khoangcach3=0;
 while iii<=(frame)
     switch stt3
         case 0
@@ -244,10 +241,10 @@ while iii<=(frame)
                 index2 = iii;
                 iii = iii+400;
                 time = index2-index1;
-                khoangcach3=time*1500/2;
+                distance=time*1500/2;
                 disp('Distance 3(m)');
-                khoangcach3=khoangcach3*1/fs;
-                disp(khoangcach3);
+                distance=distance*1/fs;
+                disp(distance);
                 stt3 = 0;
             else
                 iii = iii+1;
@@ -257,7 +254,7 @@ while iii<=(frame)
             iii = iii+1;
             stt3 = 0;
     end
-   D3=[D3 khoangcach3];
+   D3=[D3 distance];
 end
 
 
@@ -265,11 +262,11 @@ end
 %Ve anh
 %=============
 
-cc=[size(D1,2) , size(D2,2),size(D3,2)];
-   b_max=max(cc);
-   D1=[D1 zeros(1,b_max-size(D1,2))];
-   D2=[D2 zeros(1,b_max-size(D2,2))];
-   D3=[D3 zeros(1,b_max-size(D3,2))];
+c=[size(D1,2) , size(D2,2),size(D3,2)];
+   b=max(c);
+   D1=[D1 zeros(1,b-size(D1,2))];
+   D2=[D2 zeros(1,b-size(D2,2))];
+   D3=[D3 zeros(1,b-size(D3,2))];
    DD1=[]; DD_1=[];
    DD2=[]; DD_2=[];
    DD3=[]; DD_3=[];
@@ -291,8 +288,8 @@ cc=[size(D1,2) , size(D2,2),size(D3,2)];
    D=[D1;D2;D3];
 D=-D;
 figure
-size_D=size(D);
-[X,Y]=meshgrid(1:size_D(2),1:size_D(1));
+a=size(D);
+[X,Y]=meshgrid(1:a(2),1:a(1));
 ax1=subplot(1,1,1);
 mesh(X,Y,D);
 figure
