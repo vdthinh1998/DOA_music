@@ -33,6 +33,14 @@ subplot(4,1,3);
 plot(y3);
 subplot(4,1,4);
 plot(y4);
+% subplot(4,2,1);
+% plot(psd(spectrum.periodogram,y1,'Fs',fs,'NFFT',length(y1)));
+% subplot(4,2,2);
+% plot(psd(spectrum.periodogram,y2,'Fs',fs,'NFFT',length(y2)));
+% subplot(4,2,3);
+% plot(psd(spectrum.periodogram,y3,'Fs',fs,'NFFT',length(y3)));
+% subplot(4,2,4);
+% plot(psd(spectrum.periodogram,y4,'Fs',fs,'NFFT',length(y4)));
 %===============
 dt = 1/fs;                   % seconds per sample
 StopTime = 3;                % seconds
