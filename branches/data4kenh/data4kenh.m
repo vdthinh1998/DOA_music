@@ -68,6 +68,16 @@ title('tin hieu 12k kenh 3');
 subplot(4,1,4);
 plot(y_12k_4);
 title('tin hieu 12k kenh 4');
+
+% subplot(4,2,1);
+% plot(psd(spectrum.periodogram,y_12k_1,'Fs',fs,'NFFT',length(y_12k_1)));
+% subplot(4,2,2);
+% plot(psd(spectrum.periodogram,y_12k_2,'Fs',fs,'NFFT',length(y_12k_2)));
+% subplot(4,2,3);
+% plot(psd(spectrum.periodogram,y_12k_3,'Fs',fs,'NFFT',length(y_12k_3)));
+% subplot(4,2,4);
+% plot(psd(spectrum.periodogram,y_12k_4,'Fs',fs,'NFFT',length(y_12k_4)));
+
 data_4kenh_12k = [y_12k_1 y_12k_2 y_12k_3 y_12k_4];
 figure(4)
 subplot(2,1,1);
@@ -134,6 +144,16 @@ y_12k_1 = abs(y_12k_1);
   ylabel('Amplitude(V)');
   title('ENVELOPE SIGNAL CHANNEL 1');
   
+y_12k_2 = abs(y_12k_2);
+  y2_enveloped=envelope(y_12k_2,250,'rms'); %lay mau 150 mau/lan
+  y2_enveloped=y2_enveloped/(max(y2_enveloped));
+  y2_enveloped = y2_enveloped(1:100000);
+  figure(3)
+  subplot(4,1,2);
+  plot(y2_enveloped);
+  xlabel('Time(s)');
+  ylabel('Amplitude(V)');
+  title('ENVELOPE SIGNAL CHANNEL 2');
   
 y_12k_3 = abs(y_12k_3);
   y3_enveloped=envelope(y_12k_3,250,'rms'); %lay mau 150 mau/lan
@@ -157,16 +177,7 @@ y_12k_3 = abs(y_12k_3);
   ylabel('Amplitude(V)');
   title('ENVELOPE SIGNAL CHANNEL 4');
   
-  y_12k_2 = abs(y_12k_2);
-  y2_enveloped=envelope(y_12k_2,250,'rms'); %lay mau 150 mau/lan
-  y2_enveloped=y2_enveloped/(max(y2_enveloped));
-  y2_enveloped = y2_enveloped(1:100000);
-  figure(3)
-  subplot(4,1,2);
-  plot(y2_enveloped);
-  xlabel('Time(s)');
-  ylabel('Amplitude(V)');
-  title('ENVELOPE SIGNAL CHANNEL 2');
+  
   
 %================== 
 %Xu li kenh 1
@@ -187,7 +198,7 @@ while i<=(frame)
                 stt = 0;
             end
         case 1
-            if(y1_enveloped(i)>= max(y1_enveloped(i:i+16000)))
+            if(y1_enveloped(i)>= max(y1_enveloped(i:i+1600)))
                 index2 = i;
                 i = i+400;
                 time = index2-index1;
@@ -217,7 +228,7 @@ end
 while ii<=(frame)
     switch stt2
         case 0
-            if(y2_enveloped(ii)>= 0.2) 
+            if(y2_enveloped(ii)>= 0.5) 
                 index1 = ii;
                 ii = ii+400;
                 stt2 = 1;
