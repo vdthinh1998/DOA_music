@@ -103,11 +103,11 @@ k=2*pi/lamda;
 d=lamda/2;
 
 
-yy = hilbert(data_4kenh_12k(481800:493800,:));
-Nb = length(data_4kenh_12k(481800:493800,:)); %so mau
+yy = hilbert(data_4kenh_12k(1000:14400,:));
+Nb = length(data_4kenh_12k(1000:14600,:)); %so mau
 UU = yy';
 dt = 1/fs;
-t = 0:dt:(length(data_4kenh_12k(481800:493800,:))*dt)-dt;
+t = 0:dt:(length(data_4kenh_12k(1000:14600,:))*dt)-dt;
 Ruu=UU*UU'/Nb;
 [eigVector,eigValue]=eig(Ruu);
 eigValueMax=max(max(eigValue));
@@ -124,13 +124,13 @@ for theta=1:.1:180
 end
 
 for index=1:length(P)
-%     if (index == 1) && (P(1) > P(2))
-%         disp('goc toi vi tri 1');
-%         disp(index/10-90);
+    if (index == 1) && (P(1) > P(2))
+        disp('goc toi vi tri 1');
+        disp(index/10-90);
 %     elseif (index == length(P)) && (P(length(P)) > P(length(P)-1))
 %         disp('goc toi');
 %         disp(index/10-90);
-    if (index~= length(P))&& (index ~= 1) && (P(index) > P(index-1)) && (P(index) > P(index+1))
+    elseif (index~= length(P))&& (index ~= 1) && (P(index) > P(index-1)) && (P(index) > P(index+1))
         disp('goc toi vi tri 1');
         disp(index/10-90);
     end
