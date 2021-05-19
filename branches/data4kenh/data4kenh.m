@@ -380,11 +380,11 @@ cc=[size(D1,2) , size(D2,2),size(D3,2),size(D4,2)];
 D=-D;
 figure
 size_D=size(D);
-[X,Y]=meshgrid(1:size_D(2),1:size_D(1));
+[X,Y]=meshgrid(1:size_D(2),1:size_D(1)); %Tao luoi toa do 2D
 ax1=subplot(1,1,1);
-mesh(X,Y,D);
+mesh(X,Y,D);%Ve anh 3D
 figure
-contourf(X,Y,D);
+contourf(X,Y,D); % ve anh 2-D
 colorbar;     
 % plot3(X,Y,D);
 ylabel('Legth(0.3m)');
@@ -392,7 +392,7 @@ zlabel('Depth(m)');
 xlabel('Time(0.01s)')
 %axis([0  100000 0 4 -10 0]);
 title(' The bottom surface Cong vien thong nhat 2D Image');
-colormap jet; 
+colormap jet; %theme mau
 
 DD1=0;
 for i=1:size(D,1)
