@@ -124,6 +124,7 @@ for theta1=1:.1:180
     %[maxP,index] = max(real(P));
 end
 
+G1=[];
 for index1=1:length(P1)
 %     if (index == 1) && (P(1) > P(2))
 %         disp('goc toi vi tri 1');
@@ -133,7 +134,9 @@ for index1=1:length(P1)
 %         disp(index/10-90);
     if (index1~= length(P1))&& (index1 ~= 1) && (P1(index1) > P1(index1-1)) && (P1(index1) > P1(index1+1))
         disp('goc toi vi tri 1');
-        disp(index1/10-90);
+        u1=index1/10-90;
+        disp(u1);
+        G1=[G1 u1];
     end
 end 
 
@@ -159,6 +162,7 @@ for theta2=1:.1:180
     %[maxP,index] = max(real(P));
 end
 
+G2=[];
 for index2=1:length(P2)
 %     if (index == 1) && (P(1) > P(2))
 %         disp('goc toi vi tri 1');
@@ -168,7 +172,9 @@ for index2=1:length(P2)
 %         disp(index/10-90);
     if (index2~= length(P2))&& (index2 ~= 1) && (P2(index2) > P2(index2-1)) && (P2(index2) > P2(index2+1))
         disp('goc toi vi tri 2');
-        disp(index2/10-90);
+        u2=index2/10-90;
+        disp(u2);
+        G2=[G2 u2];
     end
 end 
 %==============
@@ -193,6 +199,7 @@ for theta3=1:.1:180
     %[maxP,index] = max(real(P));
 end
 
+G3=[];
 for index3=1:length(P3)
 %     if (index == 1) && (P(1) > P(2))
 %         disp('goc toi vi tri 1');
@@ -202,11 +209,13 @@ for index3=1:length(P3)
 %         disp(index/10-90);
     if (index3~= length(P3))&& (index3 ~= 1) && (P3(index3) > P3(index3-1)) && (P3(index3) > P3(index3+1))
         disp('goc toi vi tri 3');
-        disp(index3/10-90);
+        u3=index3/10-90;
+        disp(u3);
+        G3=[G3 u3];
     end
 end 
 %==============
-%Goc tai vi tri 3
+%Goc tai vi tri 4
 %==============
 yy4 = hilbert(data_4kenh_12k(500000:513000,:));
 Nb4 = length(data_4kenh_12k(500000:513000,:)); %so mau
@@ -227,6 +236,7 @@ for theta4=1:.1:180
     %[maxP,index] = max(real(P));
 end
 
+G4=[];
 for index4=1:length(P4)
 %     if (index == 1) && (P(1) > P(2))
 %         disp('goc toi vi tri 1');
@@ -236,9 +246,17 @@ for index4=1:length(P4)
 %         disp(index/10-90);
     if (index4~= length(P4))&& (index4 ~= 1) && (P4(index4) > P4(index4-1)) && (P4(index4) > P4(index4+1))
         disp('goc toi vi tri 4');
-        disp(index4/10-90);
+        u4=index4/10-90;
+        disp(u4);
+        G4=[G4 u4];
     end
 end
+G=[G1;G2;G3;G4];
+% for i=1:size(G,1)
+%     for j=1:size(G,2)
+%     G(i,j)=tan(G(i,j)*pi/180);
+%     end
+% end
 %=========
 %Plot pho khong gian DOA
 %=========
@@ -304,6 +322,8 @@ y_12k_3 = abs(y_12k_3);
  stt = 0;
  D1=[];
  khoangcach1=0;
+ k1=0;
+ Q1=[];
 while i<=(frame)
     switch stt
         case 0
@@ -323,6 +343,8 @@ while i<=(frame)
                 khoangcach1=time1*1500/2;
                 disp('Distance 1(m)');
                 khoangcach1=khoangcach1*1/fs;
+                k1=k1+1;
+                khoangcach1=khoangcach1*cos(abs(G(k1,1))*pi/180);
                 disp(khoangcach1);
                 stt = 0;
             else
@@ -333,6 +355,11 @@ while i<=(frame)
             i = i+1;
             stt = 0;
     end
+   if(k1<=0) 
+       Q1=[Q1 0];
+   else
+       Q1=[Q1 tan(G(k1,1)*pi/180)];
+   end
    D1=[D1 khoangcach1];
 end
 
@@ -382,6 +409,8 @@ end
  stt3 = 0;
  D3=[];
  khoangcach3=0;
+ k3=0;
+ Q3=[];
 while iii<=(frame)
     switch stt3
         case 0
@@ -401,6 +430,8 @@ while iii<=(frame)
                 khoangcach3=time3*1500/2;
                 disp('Distance 3(m)');
                 khoangcach3=khoangcach3*1/fs;
+                k3=k3+1;
+                khoangcach3=khoangcach3*cos(abs(G(k3,2))*pi/180);
                 disp(khoangcach3);
                 stt3 = 0;
             else
@@ -411,6 +442,11 @@ while iii<=(frame)
             iii = iii+1;
             stt3 = 0;
     end
+   if(k3<=0) 
+       Q3=[Q3 0];
+   else
+       Q3=[Q3 tan(G(k3,2)*pi/180)];
+   end
    D3=[D3 khoangcach3];
 end
 
@@ -421,6 +457,8 @@ end
  stt4 = 0;
  D4=[];
  khoangcach4=0;
+ k4=0;
+ Q4=[];
 while iiii<=(frame)
     switch stt4
         case 0
@@ -440,6 +478,8 @@ while iiii<=(frame)
                 khoangcach4=time4*1500/2;
                 disp('Distance 4(m)');
                 khoangcach4=khoangcach4*1/fs;
+                k4=k4+1;
+                khoangcach4=khoangcach4*cos(abs(G(k4,3))*pi/180);
                 disp(khoangcach4);
                 stt4 = 0;
             else
@@ -450,66 +490,78 @@ while iiii<=(frame)
             iiii = iiii+1;
             stt4 = 0;
     end
+   if(k4<=0) 
+       Q4=[Q4 0];
+   else
+       Q4=[Q4 tan(G(k4,3)*pi/180)];
+   end
    D4=[D4 khoangcach4];
 end
 
 %=============
 %Ve anh
-%=============
+% =============
 
-% cc=[size(D1,2) , size(D2,2),size(D3,2),size(D4,2)];
-%    b_max=max(cc);
-%    D1=[D1 zeros(1,b_max-size(D1,2))];
+cc=[size(D1,2) , size(D3,2),size(D4,2)];
+   b_max=max(cc);
+   D1=[D1 zeros(1,b_max-size(D1,2))];
 %    D2=[D2 zeros(1,b_max-size(D2,2))];
-%    D3=[D3 zeros(1,b_max-size(D3,2))];
-%    D4=[D4 zeros(1,b_max-size(D4,2))];
-%    DD1=[]; DD_1=[];
+   D3=[D3 zeros(1,b_max-size(D3,2))];
+   D4=[D4 zeros(1,b_max-size(D4,2))];
+   DD1=[]; DD_1=[];
 %    DD2=[]; DD_2=[];
-%    DD3=[]; DD_3=[];
-%    DD4=[]; DD_4=[];
-%    j=1;
-%    while j<(length(D1)-10)
-%     DD1=sum(D1(j:(j+9)));
-%     DD1=DD1/length(D1(j:j+9));
-%     DD_1=[DD_1 DD1];
-%     
+   DD3=[]; DD_3=[];
+   DD4=[]; DD_4=[];
+   j=1;
+   while j<(length(D1)-10)
+    DD1=sum(D1(j:(j+9)));
+    DD1=DD1/length(D1(j:j+9));
+    DD_1=[DD_1 DD1];
+    
 %     DD2=sum(D2(j:j+9));
 %     DD2=DD2/length(D2(j:j+9));
 %     DD_2=[DD_2 DD2];
-%    
-%     DD3=sum(D3(j:j+9));
-%     DD3=DD3/length(D3(j:j+9));
-%     DD_3=[DD_3 DD3];
-%     
-%     DD4=sum(D4(j:j+9));
-%     DD4=DD4/length(D4(j:j+9));
-%     DD_4=[DD_4 DD4];
-%     j=j+10;
-%    end
-%    D=[D1;D2;D3;D4];
-% D=-D;
-% figure
-% size_D=size(D);
-% [X,Y]=meshgrid(1:size_D(2),1:size_D(1)); %Tao luoi toa do 2D
-% ax1=subplot(1,1,1);
-% mesh(X,Y,D);%Ve anh 3D
-% figure
-% contourf(X,Y,D); % ve anh 2-D
-% colorbar;     
-% % plot3(X,Y,D);
-% ylabel('Legth');
-% zlabel('Depth(m)');
-% xlabel('Time')
-% %axis([0  100000 0 4 -10 0]);
-% title(' The bottom surface Cong vien thong nhat 2D Image');
-% colormap jet; %theme mau
-% 
-% DD1=0;
-% for i=1:size(D,1)
-%     for j=1:size(D,2)
-%     DD1=DD1+D(i,j);
-%     end
-% end 
-% DD1=DD1/(size(D,1)*size(D,2));
-% disp('Do sau trung binh');
-% disp(DD1);
+   
+    DD3=sum(D3(j:j+9));
+    DD3=DD3/length(D3(j:j+9));
+    DD_3=[DD_3 DD3];
+    
+    DD4=sum(D4(j:j+9));
+    DD4=DD4/length(D4(j:j+9));
+    DD_4=[DD_4 DD4];
+    j=j+10;
+   end
+   D=[D1;D3;D4];
+   Q=[Q1;Q3;Q4];
+for i=1:size(Q,1)
+    for j=1:size(Q,2)
+    Q(i,j)=D(i,j)*Q(i,j);
+    end
+end
+D=-D;
+figure
+size_D=size(D);
+[X,Y]=meshgrid(1:size_D(2),1:size_D(1)); %Tao luoi toa do 2D
+Y=Y+Q;
+ax1=subplot(1,1,1);
+mesh(X,Y,D);%Ve anh 3D
+figure
+contourf(X,Y,D); % ve anh 2-D
+colorbar;     
+% plot3(X,Y,D);
+ylabel('Legth');
+zlabel('Depth(m)');
+xlabel('Time')
+%axis([0  100000 0 4 -10 0]);
+title(' The bottom surface Cong vien thong nhat 2D Image');
+colormap jet; %theme mau
+
+DD1=0;
+for i=1:size(D,1)
+    for j=1:size(D,2)
+    DD1=DD1+D(i,j);
+    end
+end 
+DD1=DD1/(size(D,1)*size(D,2));
+disp('Do sau trung binh');
+disp(DD1);
